@@ -3,7 +3,7 @@
 const requestPiece = require('./request-piece');
 
 module.exports = function bitfieldHandler(socket, pieces, queue, payload) {
-  const queueEmpty = queue.length === 0;
+  const queueEmpty = queue.length() === 0;
   payload.forEach((byte, i) => {
     for (let j = 0; j < 8; j++) {
       if (byte % 2) queue.queue(i * 8 + 7 - j);
