@@ -1,8 +1,12 @@
 'use strict';
 
-const util = require('./util');
+jest.mock('crypto', () => ({
+  randomBytes: jest.fn(() => Buffer.alloc(20))
+}));
 
-describe('util.genId', () => {
+const util = require('./index');
+
+describe('genId', () => {
   test('returns 20 bytes', () => {
     expect(util.genId()).toHaveLength(20);
   });
