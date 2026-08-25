@@ -1,11 +1,11 @@
 'use strict';
 
-jest.mock('./torrent-parser', () => ({
+jest.mock('../torrent-parser', () => ({
   infoHash: jest.fn(() => Buffer.alloc(20, 3)),
   size: jest.fn(() => Buffer.alloc(8))
 }));
 
-jest.mock('./util', () => ({
+jest.mock('../util', () => ({
   genId: jest.fn(() => Buffer.alloc(20))
 }));
 
@@ -17,9 +17,9 @@ jest.mock('dgram', () => ({
 }));
 
 const dgram = require('dgram');
-const tracker = require('./tracker');
+const tracker = require('./index');
 
-describe('tracker.getPeers', () => {
+describe('getPeers', () => {
   beforeEach(() => {
     dgram.createSocket.mockClear();
   });
