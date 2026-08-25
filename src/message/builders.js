@@ -1,24 +1,6 @@
 'use strict';
 
 const Buffer = require('buffer').Buffer;
-const torrentParser = require('./torrent-parser');
-const util = require('./util');
-
-module.exports.buildHandshake = torrent => {
-  const buf = Buffer.alloc(68);
-  // pstrlen
-  buf.writeUInt8(19, 0);
-  // pstr
-  buf.write('BitTorrent protocol', 1);
-  // reserved
-  buf.writeUInt32BE(0, 20);
-  buf.writeUInt32BE(0, 24);
-  // info hash
-  torrentParser.infoHash(torrent).copy(buf, 28);
-  // peer id
-  util.genId().copy(buf, 48);
-  return buf;
-};
 
 module.exports.buildKeepAlive = () => Buffer.alloc(4);
 
@@ -134,23 +116,4 @@ module.exports.buildPort = payload => {
   // listen-port
   buf.writeUInt16BE(payload, 5);
   return buf;
-};
-
-module.exports.parse = msg => {
-  const id = msg.length > 4 ? msg.readInt8(4) : null;
-  let payload = msg.length > 5 ? msg.slice(5) : null;
-  if (id === 6 || id === 7 || id === 8) {
-    const rest = payload.slice(8);
-    payload = {
-      index: payload.readInt32BE(0),
-      begin: payload.readInt32BE(4)
-    };
-    payload[id === 7 ? 'block' : 'length'] = rest;
-  }
-
-  return {
-    size : msg.readInt32BE(0),
-    id : id,
-    payload : payload
-  }
 };
