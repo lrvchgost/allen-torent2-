@@ -1,16 +1,16 @@
 'use strict';
 
-jest.mock('./torrent-parser', () => ({
+jest.mock('../torrent-parser', () => ({
   BLOCK_LEN: 16384,
   blocksPerPiece: jest.fn(() => 1),
   blockLen: jest.fn(() => 16384)
 }));
 
-jest.mock('./tracker', () => ({
+jest.mock('../tracker', () => ({
   getPeers: jest.fn()
 }));
 
-jest.mock('./message', () => ({
+jest.mock('../message', () => ({
   buildHandshake: jest.fn(() => Buffer.from('HANDSHAKE')),
   buildInterested: jest.fn(() => Buffer.from('INTERESTED')),
   buildRequest: jest.fn(() => Buffer.from('REQUEST')),
@@ -29,9 +29,9 @@ jest.mock('net', () => ({
 
 const fs = require('fs');
 const net = require('net');
-const tracker = require('./tracker');
-const message = require('./message');
-const download = require('./download');
+const tracker = require('../tracker');
+const message = require('../message');
+const download = require('./index');
 
 describe('download', () => {
   let socket;
