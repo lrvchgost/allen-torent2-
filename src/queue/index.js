@@ -1,6 +1,7 @@
 'use strict';
 
-const tp = require('./torrent-parser');
+const tp = require('../torrent-parser');
+const buildBlock = require('./build-block');
 
 module.exports = class {
   constructor(torrent) {
@@ -12,12 +13,7 @@ module.exports = class {
   queue(pieceIndex) {
     const nBlocks = tp.blocksPerPiece(this._torrent, pieceIndex);
     for (let i = 0; i < nBlocks; i++) {
-      const pieceBlock = {
-        index: pieceIndex,
-        begin: i * tp.BLOCK_LEN,
-        length: tp.blockLen(this._torrent, pieceIndex, i)
-      };
-      this._queue.push(pieceBlock);
+      this._queue.push(buildBlock(this._torrent, pieceIndex, i));
     }
   }
 

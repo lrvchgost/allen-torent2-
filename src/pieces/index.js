@@ -1,24 +1,8 @@
 'use strict';
 
 const tp = require('../torrent-parser');
-
-function buildPiecesArray(torrent) {
-  const nPieces = torrent.info.pieces.length / 20;
-  const arr = new Array(nPieces).fill(null);
-  return arr.map((_, i) => new Array(tp.blocksPerPiece(torrent, i)).fill(false));
-}
-
-function percentDone(received) {
-  const downloaded = received.reduce((totalBlocks, blocks) => {
-    return blocks.filter(i => i).length + totalBlocks;
-  }, 0);
-
-  const total = received.reduce((totalBlocks, blocks) => {
-    return blocks.length + totalBlocks;
-  }, 0);
-
-  return Math.floor(downloaded / total * 100);
-}
+const buildPiecesArray = require('./build-pieces-array');
+const percentDone = require('./percent-done');
 
 module.exports = class {
   constructor(torrent) {

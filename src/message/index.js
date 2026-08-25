@@ -1,21 +1,17 @@
 'use strict';
 
-const handshake = require('./handshake');
-const builders = require('./builders');
-const parse = require('./parse');
-
 module.exports = {
-  buildHandshake: handshake.buildHandshake,
-  buildKeepAlive: builders.buildKeepAlive,
-  buildChoke: builders.buildChoke,
-  buildUnchoke: builders.buildUnchoke,
-  buildInterested: builders.buildInterested,
-  buildUninterested: builders.buildUninterested,
-  buildHave: builders.buildHave,
-  buildBitfield: builders.buildBitfield,
-  buildRequest: builders.buildRequest,
-  buildPiece: builders.buildPiece,
-  buildCancel: builders.buildCancel,
-  buildPort: builders.buildPort,
-  parse: parse.parse
+  buildHandshake: require('./build-handshake'),
+  buildKeepAlive: require('./build-keep-alive'),
+  buildChoke: require('./build-choke'),
+  buildUnchoke: require('./build-unchoke'),
+  buildInterested: require('./build-interested'),
+  buildUninterested: require('./build-uninterested'),
+  buildHave: require('./build-have'),
+  buildBitfield: require('./build-bitfield'),
+  buildRequest: require('./build-request'),
+  buildPiece: require('./build-piece'),
+  buildCancel: require('./build-cancel'),
+  buildPort: require('./build-port'),
+  parse: require('./parse')
 };

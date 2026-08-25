@@ -5,7 +5,7 @@ const net = require('net');
 const tracker = require('./tracker');
 const message = require('./message');
 const Pieces = require('./pieces');
-const Queue = require('./Queue');
+const Queue = require('./queue');
 
 module.exports = (torrent, path) => {
   tracker.getPeers(torrent, peers => {

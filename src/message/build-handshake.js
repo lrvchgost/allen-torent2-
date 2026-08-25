@@ -4,7 +4,7 @@ const Buffer = require('buffer').Buffer;
 const torrentParser = require('../torrent-parser');
 const util = require('../util');
 
-module.exports.buildHandshake = torrent => {
+module.exports = function buildHandshake(torrent) {
   const buf = Buffer.alloc(68);
   // pstrlen
   buf.writeUInt8(19, 0);

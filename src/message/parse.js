@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.parse = msg => {
+module.exports = function parse(msg) {
   const id = msg.length > 4 ? msg.readInt8(4) : null;
   let payload = msg.length > 5 ? msg.slice(5) : null;
   if (id === 6 || id === 7 || id === 8) {
