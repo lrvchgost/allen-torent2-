@@ -1,17 +1,29 @@
 'use strict';
 
-const tp = require('./torrent-parser');
+const tp = require('../torrent-parser');
+
+function buildPiecesArray(torrent) {
+  const nPieces = torrent.info.pieces.length / 20;
+  const arr = new Array(nPieces).fill(null);
+  return arr.map((_, i) => new Array(tp.blocksPerPiece(torrent, i)).fill(false));
+}
+
+function percentDone(received) {
+  const downloaded = received.reduce((totalBlocks, blocks) => {
+    return blocks.filter(i => i).length + totalBlocks;
+  }, 0);
+
+  const total = received.reduce((totalBlocks, blocks) => {
+    return blocks.length + totalBlocks;
+  }, 0);
+
+  return Math.floor(downloaded / total * 100);
+}
 
 module.exports = class {
   constructor(torrent) {
-    function buildPiecesArray() {
-      const nPieces = torrent.info.pieces.length / 20;
-      const arr = new Array(nPieces).fill(null);
-      return arr.map((_, i) => new Array(tp.blocksPerPiece(torrent, i)).fill(false));
-    }
-    
-    this._requested = buildPiecesArray();
-    this._received = buildPiecesArray();
+    this._requested = buildPiecesArray(torrent);
+    this._received = buildPiecesArray(torrent);
   }
 
   addRequested(pieceBlock) {
@@ -37,16 +49,6 @@ module.exports = class {
   }
 
   printPercentDone() {
-    const downloaded = this._received.reduce((totalBlocks, blocks) => {
-      return blocks.filter(i => i).length + totalBlocks;
-    }, 0);
-
-    const total = this._received.reduce((totalBlocks, blocks) => {
-      return blocks.length + totalBlocks;
-    }, 0);
-
-    const percent = Math.floor(downloaded / total * 100);
-
-    process.stdout.write('progress: ' + percent + '%\r');
+    process.stdout.write('progress: ' + percentDone(this._received) + '%\r');
   }
 };

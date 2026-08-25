@@ -4,7 +4,7 @@ const fs = require('fs');
 const net = require('net');
 const tracker = require('./tracker');
 const message = require('./message');
-const Pieces = require('./Pieces');
+const Pieces = require('./pieces');
 const Queue = require('./Queue');
 
 module.exports = (torrent, path) => {
