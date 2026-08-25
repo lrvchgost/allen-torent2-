@@ -10,6 +10,7 @@ const pieceHandler = require('./piece-handler');
 
 module.exports = function msgHandler(msg, socket, pieces, queue, torrent, file) {
   if (isHandshake(msg)) {
+    console.log('[download] handshake, sending interested');
     socket.write(message.buildInterested());
   } else {
     const m = message.parse(msg);

@@ -8,8 +8,9 @@ const msgHandler = require('./msg-handler');
 
 module.exports = function download(peer, torrent, pieces, file) {
   const socket = new net.Socket();
-  socket.on('error', console.log);
+  socket.on('error', err => console.error('[download] socket error:', err.message));
   socket.connect(peer.port, peer.ip, () => {
+    console.log('[download] connected to', peer.ip + ':' + peer.port);
     socket.write(message.buildHandshake(torrent));
   });
   const queue = new Queue(torrent);

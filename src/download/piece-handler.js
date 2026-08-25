@@ -12,7 +12,7 @@ module.exports = function pieceHandler(socket, pieces, queue, torrent, file, pie
   fs.write(file, pieceResp.block, 0, pieceResp.block.length, offset, () => {});
 
   if (pieces.isDone()) {
-    console.log('DONE!');
+    console.log('[download] DONE!');
     socket.end();
     try { fs.closeSync(file); } catch(e) {}
   } else {
