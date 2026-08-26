@@ -58,6 +58,7 @@ describe('download', () => {
     expect(socket.write).toHaveBeenCalledWith(Buffer.from('HANDSHAKE'));
     expect(socket.on).toHaveBeenCalledWith('error', expect.any(Function));
     expect(socket.on).toHaveBeenCalledWith('data', expect.any(Function));
+    expect(socket.on).toHaveBeenCalledWith('close', expect.any(Function));
   });
 
   test('sends interested after receiving handshake', () => {
